@@ -12,7 +12,7 @@ EDAS VoiceBot provides a dual-mode interface:
 
 The backend uses a two-stage AI pipeline:
 1. **Intent Classifier** (`llama-3.1-8b-instant`) — fast keyword rules with LLM fallback
-2. **Response Generator** (`qwen-qwq-32b`) — generates structured JSON responses with empathy guardrails
+2. **Response Generator** (`qwen3-32b`) — generates structured JSON responses with empathy guardrails
 
 ---
 
@@ -23,7 +23,7 @@ The backend uses a two-stage AI pipeline:
 | API Framework     | FastAPI 0.115.5                  |
 | ASGI Server       | Uvicorn (with standard extras)   |
 | LLM Provider      | Groq Cloud API                   |
-| Primary LLM       | `qwen-qwq-32b`                   |
+| Primary LLM       | `qwen3-32b`                   |
 | Intent LLM        | `llama-3.1-8b-instant`           |
 | Schema Validation | Pydantic v2                      |
 | Config Management | python-dotenv                    |
@@ -235,7 +235,7 @@ The system uses a **two-stage cascade**:
 
 The system employs strict prompt engineering and custom logic to maintain strong boundaries:
 1. **Strict Complaint Workflow:** The bot must first collect the details of the issue from the user *before* registering a new complaint and issuing a ticket ID.
-2. **Reasoning Models Support:** Because `qwen-qwq-32b` is a reasoning model, a custom `RunnableLambda` step intercepts its raw output, mathematically stripping away the internal `<think>...</think>` monologues before passing the sanitized text to the strict JSON parser.
+2. **Reasoning Models Support:** Because `qwen3-32b` is a reasoning model, a custom `RunnableLambda` step intercepts its raw output, mathematically stripping away the internal `<think>...</think>` monologues before passing the sanitized text to the strict JSON parser.
 
 ---
 
@@ -244,6 +244,6 @@ The system employs strict prompt engineering and custom logic to maintain strong
 | Variable              | Default                | Description                        |
 |-----------------------|------------------------|------------------------------------|
 | `GROQ_API_KEY`        | *(required)*           | Your Groq Cloud API key            |
-| `GROQ_PRIMARY_MODEL`  | `qwen-qwq-32b`         | Main response generation model     |
+| `GROQ_PRIMARY_MODEL`  | `qwen3-32b`         | Main response generation model     |
 | `GROQ_INTENT_MODEL`   | `llama-3.1-8b-instant` | Fast intent classification model   |
 | `MAX_HISTORY_TURNS`   | `10`                   | Max conversation turns kept in RAM |
